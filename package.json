@@ -1,0 +1,22 @@
+{
+  "name": "previousvalue",
+  "version": "1.0.0",
+  "description": "Return a path's previous value for the given object given a diffs array",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Walcu-Engineering/previousValue.git"
+  },
+  "author": "Jose García Lozano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Walcu-Engineering/previousValue/issues"
+  },
+  "homepage": "https://github.com/Walcu-Engineering/previousValue#readme",
+  "devDependencies": {
+    "jest": "^29.0.2"
+  }
+}
