@@ -18,5 +18,10 @@
   "homepage": "https://github.com/Walcu-Engineering/previousValue#readme",
   "devDependencies": {
     "jest": "^29.0.2"
+  },
+  "dependencies": {
+    "@walcu-engineering/getpathvalue": "^1.0.0",
+    "@walcu-engineering/isancestor": "^1.0.0",
+    "@walcu-engineering/isjsonpointer": "^1.0.0"
   }
 }
