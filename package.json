@@ -1,6 +1,6 @@
 {
   "name": "@walcu-engineering/previousvalue",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Return a path's previous value for the given object given a diffs array",
   "main": "index.js",
   "scripts": {
