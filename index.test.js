@@ -52,4 +52,21 @@ describe('previousValue', () => {
   test('Prev deep path value without changes. Should return undefined', () => {
     expect(previousValue(undone_customer, diffs, '/deep/path')).toBe(undefined);
   });
+  test('Incompatible changes', () => {
+    const changes = [
+      {path: '/a', old_value: {b: null}},
+      {path: '/a/b', old_value: 'b1'},
+    ];
+    const obj = {a: {b: 'b2'}};
+    expect(previousValue(obj, changes, '')).toEqual({a: {b: 'b1'}});
+  });
+  test('Incompatible changes even deeper', () => {
+    const changes = [
+      {path: '/a', old_value: {b: {c: 'c3'}}},
+      {path: '/a/b', old_value: {c: 'c2'}},
+      {path: '/a/b/c', old_value: 'c1'},
+    ];
+    const obj = {a: {b: {c: 'c4'}}};
+    expect(previousValue(obj, changes, '')).toEqual({a: {b: {c: 'c1'}}});
+  });
 });
