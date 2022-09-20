@@ -69,4 +69,58 @@ describe('previousValue', () => {
     const obj = {a: {b: {c: 'c4'}}};
     expect(previousValue(obj, changes, '')).toEqual({a: {b: {c: 'c1'}}});
   });
+  test('Change key does not exists in object', () => {
+    const changes = [ {path: '/a', old_value: 'a'} ];
+    const obj = {};
+    expect(previousValue(obj, changes, '')).toEqual({a: 'a'});
+  });
+  test('Change key does not deeply exists in object', () => {
+    const changes = [ {path: '/a/b/c', old_value: 'c'} ];
+    const obj = {};
+    expect(previousValue(obj, changes, '')).toEqual({a: {b: {c: 'c'}}});
+  });
+
+  describe('Change keys deeper than object', () => {
+    test('Object 1', () => {
+      const changes = [
+        {path: '/a', old_value: 'a'},
+      ];
+      const obj = {};
+      expect(previousValue(obj, changes, '')).toEqual({a: 'a'});
+    });
+    test('Object 2', () => {
+      const changes = [
+        {path: '/a/b/c', old_value: undefined},
+        {path: '/a/b/c', old_value: {c1: 'c1'}},
+        {path: '/a/b/c/d/e', old_value: 'e'},
+      ];
+      const obj = {};
+      expect(previousValue(obj, changes, '')).toEqual({a: {b: {c: {c1: 'c1', d: {e: 'e'}}}}});
+    });
+
+    test('Object 3', () => {
+      const changes = [
+        {path: '/a/b/c/d/e', old_value: 'e'},
+        {path: '/a/b/c', old_value: undefined},
+        {path: '/a/b/c', old_value: {c1: 'c1'}},
+      ];
+      const obj = {};
+      expect(previousValue(obj, changes, '')).toEqual({a: {b: {c: {c1: 'c1'}}}});
+    });
+    test('Array 1', () => {
+      const changes = [ {path: '/0', old_value: '0'} ];
+      const obj = [];
+      expect(previousValue(obj, changes, '')).toEqual(['0']);
+    });
+    test('Array 2', () => {
+      const changes = [
+        {path: '/0', old_value: ['0']},
+        {path: '/0/0', old_value: '00'},
+        {path: '/0/1', old_value: '01'},
+      ];
+      const obj = [];
+      expect(previousValue(obj, changes, '')).toEqual([['00', '01']]);
+    });
+  });
+
 });
