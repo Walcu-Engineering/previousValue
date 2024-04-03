@@ -22,6 +22,6 @@
   "dependencies": {
     "@walcu-engineering/getpathvalue": "^1.0.0",
     "@walcu-engineering/isancestor": "^1.0.0",
-    "@walcu-engineering/isjsonpointer": "^1.0.0"
+    "@walcu-engineering/isjsonpointer": "^1.0.1"
   }
 }
