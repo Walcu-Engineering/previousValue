@@ -4,6 +4,14 @@ const changed_customer = {
   name: 'Test name',
   surname: 'Test surname',
   theundefined: 'some value',
+  nested: {
+    nested: 'Hello',
+    nested2: 'Bye2',
+  },
+  nested2: {
+    nested: '2Bye',
+    nested2: '2Hello2',
+  },
   contacts: [{
     name: 'Test contact 1 name',
     phones: ['Test contact 1 phone 1', 'Test contact 1 phone 2'],
@@ -14,10 +22,20 @@ const diffs = [
   {path: '/theundefined'}, //old value was not defined.
   {path: '/name', old_value: 'old name'},
   {path: '/contacts/0', old_value: {name: 'old contact name', phones: ['old phone 1', 'old phone 2'], emails: ['old email 1', 'old email 2']}},
+  {path: '/nested/nested2', old_value: 'Hello2'},
+  {path: '/nested2', old_value: { nested: '2Hello', nested2: '2Hello2' }},
 ]
 const undone_customer = {
   name: 'old name',
   surname: 'Test surname',
+  nested: {
+    nested: 'Hello',
+    nested2: 'Hello2',
+  },
+  nested2: {
+    nested: '2Hello',
+    nested2: '2Hello2',
+  },
   contacts: [{
     name: 'old contact name',
     phones: ['old phone 1', 'old phone 2'],
@@ -41,6 +59,30 @@ describe('previousValue', () => {
   test('/contacts/0 previous value should be {name: "old name", phones: ["old phone 1", "old phone 2"], emails: ["old email 1", "old email 2"]}', () => {
     const prev = previousValue(changed_customer, diffs, '/contacts/0');
     expect(prev).toEqual(undone_customer.contacts[0]);
+  });
+  test('/nested previous value should be previous object', () => {
+    const prev = previousValue(changed_customer, diffs, '/nested');
+    expect(prev).toEqual(undone_customer.nested);
+  });
+  test('/nested2 previous value should be previous object', () => {
+    const prev = previousValue(changed_customer, diffs, '/nested2');
+    expect(prev).toEqual(undone_customer.nested2);
+  });
+  test('/nested/nested previous value should be Hello', () => {
+    const prev = previousValue(changed_customer, diffs, '/nested/nested');
+    expect(prev).toEqual(undone_customer.nested.nested);
+  });
+  test('/nested/nested2 previous value should be Hello2', () => {
+    const prev = previousValue(changed_customer, diffs, '/nested/nested2');
+    expect(prev).toEqual(undone_customer.nested.nested2);
+  });
+  test('/nested2/nested previous value should be 2Hello', () => {
+    const prev = previousValue(changed_customer, diffs, '/nested2/nested');
+    expect(prev).toEqual(undone_customer.nested2.nested);
+  });
+  test('/nested2/nested2 previous value should be 2Hello2', () => {
+    const prev = previousValue(changed_customer, diffs, '/nested2/nested2');
+    expect(prev).toEqual(undone_customer.nested2.nested2);
   });
   test('fully restored customer', () => {
     const fully_restored = previousValue(changed_customer, diffs, '');
